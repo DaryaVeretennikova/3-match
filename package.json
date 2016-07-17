@@ -23,6 +23,7 @@
     "gulp-livereload": "^3.8.1",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
+    "lodash": "^4.13.1",
     "phaser": "^2.6.1"
   }
 }
