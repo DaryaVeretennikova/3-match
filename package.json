@@ -1,0 +1,28 @@
+{
+  "name": "3-match",
+  "version": "1.0.0",
+  "description": "3-match",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaryaVeretennikova/3-match.git"
+  },
+  "author": "Darya Veretennikova",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DaryaVeretennikova/3-match/issues"
+  },
+  "homepage": "https://github.com/DaryaVeretennikova/3-match#readme",
+  "devDependencies": {
+    "buble": "^0.12.5",
+    "gulp": "^3.9.1",
+    "gulp-buble": "^0.7.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "phaser": "^2.6.1"
+  }
+}
