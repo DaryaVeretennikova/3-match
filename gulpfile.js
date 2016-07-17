@@ -45,7 +45,7 @@ gulp.task('buble', function() {
         .pipe(buble())
         .pipe(plumber.stop())
         .pipe(gulp.dest(paths.build.scripts))
-        .pipe(livereload());;
+        .pipe(livereload());
 });
 
 //JS task
