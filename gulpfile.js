@@ -44,7 +44,8 @@ gulp.task('buble', function() {
         }))
         .pipe(buble())
         .pipe(plumber.stop())
-        .pipe(gulp.dest(paths.build.scripts));
+        .pipe(gulp.dest(paths.build.scripts))
+        .pipe(livereload());;
 });
 
 //JS task
@@ -63,10 +64,9 @@ gulp.task('watch', ['build'], function watch() {
         if (err) {
             return console.log('Livereload start failed');
         }
-
-        gulp.watch(paths.src.scripts, ['js']);
-
     });
+
+    gulp.watch(paths.src.scripts, ['js']);
 });
 
 // Run
