@@ -4,7 +4,7 @@ var GEM_SIZE_SPACED = GEM_SIZE + GEM_SPACING;
 var BOARD_COLS;
 var BOARD_ROWS;
 
-var game = new Phaser.Game(640, 640, Phaser.AUTO);
+var game = new Phaser.Game(500, 500, Phaser.AUTO);
 
 var GameState = {
   preload: function() {
@@ -13,16 +13,18 @@ var GameState = {
     this.game.load.image('purple', 'assets/images/gems/purple.png');
     this.game.load.image('red', 'assets/images/gems/red.png');
     this.game.load.image('sky-blue', 'assets/images/gems/sky-blue.png');
+    this.game.load.image('silver', 'assets/images/gems/silver.png');
   },
   create: function() {
     this.game.stage.backgroundColor = '#ebebeb';
 
-    this.tyleTypes = [
+    this.tileTypes = [
       'blue',
       'green',
       'purple',
       'red',
-      'sky-blue'
+      'sky-blue',
+      'silver'
     ];
 
     this.score = 0;
@@ -32,7 +34,15 @@ var GameState = {
 
     this.canMove = false;
 
+    this.tileWidth = this.game.cache.getImage('blue').width;
+    this.tileHeight = this.game.cache.getImage('blue').height;
+
     this.tiles = this.game.add.group();
+
+
+
+    //@TODO fullfill grid (width and height of canvas)
+    //this.tileGrid = [];
 
     this.tileGrid = [
         [null, null, null, null, null, null],
@@ -42,6 +52,10 @@ var GameState = {
         [null, null, null, null, null, null],
         [null, null, null, null, null, null]
     ];
+
+    this.random = new Phaser.RandomDataGenerator(Date.now());
+
+    this.initTiles();
   },
   update: function() {
 
@@ -66,8 +80,42 @@ var GameState = {
     // });
   },
 
-  addTile: function() {
-    
+  addTile: function(x, y) {
+    var tileToAdd = this.tileTypes[this.random.integerInRange(0, this.tileTypes.length - 1)];
+    var tile = this.tiles.create((x * this.tileWidth) + this.tileWidth / 2, 0, tileToAdd);
+
+    this.game.add.tween(tile).to(
+      {y: y * this.tileHeight + (this.tileHeight / 2)},
+      500,
+      Phaser.Easing.Linear.In,
+      true
+    );
+
+    //Set the tiles anchor point to the center
+    tile.anchor.setTo(0.5, 0.5);
+
+    //Enable input on the tile
+    tile.inputEnabled = true;
+
+    //Keep track of the type of tile that was added
+    tile.tileType = tileToAdd;
+
+    //Trigger the tileDown function whenever the user clicks or taps on this tile
+    tile.events.onInputDown.add(this.tileDown, this);
+
+    return tile;
+  },
+
+  tileDown: function(tile, pointer){
+
+    //Keep track of where the user originally clicked
+    if(this.canMove){
+        this.activeTile1 = tile;
+
+        this.startPosX = (tile.x - this.tileWidth / 2) / this.tileWidth;
+        this.startPosY = (tile.y - this.tileHeight / 2) / this.tileHeight;
+    }
+
   }
 };
 
