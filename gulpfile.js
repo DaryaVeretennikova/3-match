@@ -4,8 +4,8 @@ var _ = require('lodash');
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
 var buble = require('gulp-buble');
-var livereload = require('gulp-livereload');
 var notify = require('gulp-notify');
+var connect = require('gulp-connect');
 
 /**
  * Error function for plumber
@@ -36,6 +36,17 @@ gulp.task('copy-assets', function() {
     });
 });
 
+//run a webserver
+gulp.task('connect', function(){
+  connect.server({
+      root: ['dist'],
+      port: 8080,
+      base: 'http://localhost',
+      livereload: true
+  });
+});
+
+
 //ES6 to ES5
 gulp.task('buble', function() {
     return gulp.src(paths.src.scripts)
@@ -45,7 +56,7 @@ gulp.task('buble', function() {
         .pipe(buble())
         .pipe(plumber.stop())
         .pipe(gulp.dest(paths.build.scripts))
-        .pipe(livereload());
+        .pipe(connect.reload());
 });
 
 //JS task
@@ -59,15 +70,9 @@ gulp.task('build', [
 ]);
 
 //Watch task
-gulp.task('watch', ['build'], function watch() {
-    livereload.listen(function(err) {
-        if (err) {
-            return console.log('Livereload start failed');
-        }
-    });
-
-    gulp.watch(paths.src.scripts, ['js']);
+gulp.task('watch', function () {
+  gulp.watch(paths.src.scripts, ['js']);
 });
 
 // Run
-gulp.task('default', ['build']);
+gulp.task('default', ['connect', 'watch']);
