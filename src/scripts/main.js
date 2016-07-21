@@ -58,7 +58,6 @@ let GameState = {
     this.initTiles();
   },
   update: function() {
-    let that = this;
     if(this.activeTile1 && !this.activeTile2){
         //Get the location of where the pointer is currently
         let hoverX = this.game.input.x;
@@ -89,8 +88,8 @@ let GameState = {
                 this.swapTiles();
 
                 //After the swap has occurred, check the grid for any matches
-                this.game.time.events.add(500, function(){
-                    that.checkMatch();
+                this.game.time.events.add(500, () => {
+                    this.checkMatch();
                 });
             }
 
@@ -102,7 +101,6 @@ let GameState = {
 
   initTiles: function() {
     let tileGridLength = this.tileGrid.length;
-    let that = this;
 
     for (let i = 0; i < tileGridLength; i++) {
       for (let j = 0; j < tileGridLength; j++) {
@@ -113,8 +111,8 @@ let GameState = {
     }
 
     //Once the tiles are ready, check for any matches on the grid
-    this.game.time.events.add(600, function(){
-        that.checkMatch();
+    this.game.time.events.add(600, () => {
+        this.checkMatch();
     });
   },
 
@@ -200,7 +198,6 @@ let GameState = {
 
     //Call the getMatches function to check for spots where there is
     //a run of three or more tiles in a row
-    let that = this;
     let matches = this.getMatches(this.tileGrid);
 
     //If there are matches, remove them
@@ -216,13 +213,13 @@ let GameState = {
         this.fillTile();
 
         //Trigger the tileUp event to reset the active tiles
-        this.game.time.events.add(500, function(){
-            that.tileUp();
+        this.game.time.events.add(500, () => {
+            this.tileUp();
         });
 
         //Check again to see if the repositioning of tiles caused any new matches
-        this.game.time.events.add(600, function(){
-            that.checkMatch();
+        this.game.time.events.add(600, () => {
+            this.checkMatch();
         });
 
     }
@@ -230,9 +227,9 @@ let GameState = {
 
         //No match so just swap the tiles back to their original position and reset
         this.swapTiles();
-        this.game.time.events.add(500, function(){
-            that.tileUp();
-            that.canMove = true;
+        this.game.time.events.add(500, () => {
+            this.tileUp();
+            this.canMove = true;
         });
     }
 

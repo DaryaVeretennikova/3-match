@@ -58,7 +58,8 @@ var GameState = {
     this.initTiles();
   },
   update: function() {
-    var that = this;
+    var this$1 = this;
+
     if(this.activeTile1 && !this.activeTile2){
         //Get the location of where the pointer is currently
         var hoverX = this.game.input.x;
@@ -89,8 +90,8 @@ var GameState = {
                 this.swapTiles();
 
                 //After the swap has occurred, check the grid for any matches
-                this.game.time.events.add(500, function(){
-                    that.checkMatch();
+                this.game.time.events.add(500, function () {
+                    this$1.checkMatch();
                 });
             }
 
@@ -104,7 +105,6 @@ var GameState = {
     var this$1 = this;
 
     var tileGridLength = this.tileGrid.length;
-    var that = this;
 
     for (var i = 0; i < tileGridLength; i++) {
       for (var j = 0; j < tileGridLength; j++) {
@@ -115,8 +115,8 @@ var GameState = {
     }
 
     //Once the tiles are ready, check for any matches on the grid
-    this.game.time.events.add(600, function(){
-        that.checkMatch();
+    this.game.time.events.add(600, function () {
+        this$1.checkMatch();
     });
   },
 
@@ -199,10 +199,11 @@ var GameState = {
     }
   },
   checkMatch: function() {
+    var this$1 = this;
+
 
     //Call the getMatches function to check for spots where there is
     //a run of three or more tiles in a row
-    var that = this;
     var matches = this.getMatches(this.tileGrid);
 
     //If there are matches, remove them
@@ -218,13 +219,13 @@ var GameState = {
         this.fillTile();
 
         //Trigger the tileUp event to reset the active tiles
-        this.game.time.events.add(500, function(){
-            that.tileUp();
+        this.game.time.events.add(500, function () {
+            this$1.tileUp();
         });
 
         //Check again to see if the repositioning of tiles caused any new matches
-        this.game.time.events.add(600, function(){
-            that.checkMatch();
+        this.game.time.events.add(600, function () {
+            this$1.checkMatch();
         });
 
     }
@@ -232,9 +233,9 @@ var GameState = {
 
         //No match so just swap the tiles back to their original position and reset
         this.swapTiles();
-        this.game.time.events.add(500, function(){
-            that.tileUp();
-            that.canMove = true;
+        this.game.time.events.add(500, function () {
+            this$1.tileUp();
+            this$1.canMove = true;
         });
     }
 
